@@ -36,7 +36,7 @@ from {{ref('stg_ga4__event_page_view')}}
     {% if var('static_incremental_days', false)  %}
         where event_date_dt in ({{ partitions_to_replace | join(',') }})
     {% else %}
-        where event_date_dt >= _dbt_max_partition
+        where event_date_dt >= (select max(event_date_dt) from `ga4-analytics-388005`.`dbt_vravichandran`.`stg_ga4__event_page_view`)
     {% endif %}
 {% endif %}
     group by 1,2,3,4,5,6,7
@@ -59,7 +59,7 @@ from {{ref('stg_ga4__event_page_view')}}
         {% if var('static_incremental_days', false)  %}
             where event_date_dt in ({{ partitions_to_replace | join(',') }})
         {% else %}
-            where event_date_dt >= _dbt_max_partition
+            where event_date_dt >= (select max(event_date_dt) from `ga4-analytics-388005`.`dbt_vravichandran`.`stg_ga4__event_scroll`)
         {% endif %}
     {% endif %}
     group by 1,2,3
